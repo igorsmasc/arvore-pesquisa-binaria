@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "Arvore.c"
 #define MAXCHAR 30
 #define MAX_NUMBER_STRINGS 50
 
@@ -85,8 +86,8 @@ void escreverDB(int op) {
 	// Qualquer valor chamado na ausencia da db
 	// irá criar uma nova
 	char arr[MAX_NUMBER_STRINGS][MAXCHAR]; 
-	strcpy(arr[0], "igor mascarenhas");
-	strcpy(arr[1], "liana maria ");
+	strcpy(arr[0], "igor mascarenhas\n");
+	strcpy(arr[1], "liana maria\n");
 	
 	
 	FILE * fp;
@@ -105,7 +106,7 @@ void escreverDB(int op) {
 void carregarDB() {
 	
 	FILE *fp; //Variável do tipo arquivo
-	char str[MAXCHAR];
+	char str[MAX_NUMBER_STRINGS];
 	char * filename = "database.txt";
 	
 	fp = fopen(filename, "r");
@@ -118,7 +119,7 @@ void carregarDB() {
 		}
 	}
 	
-	while (fgets(str, MAXCHAR, fp) != NULL)
+	while (fgets(str, MAX_NUMBER_STRINGS, fp) != NULL)
 		printf("\n%s \n\n", str);
 	fclose(fp);
 	return 0;
