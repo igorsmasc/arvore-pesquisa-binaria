@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#define MAXCHAR 30
+#define MAX_NUMBER_STRINGS 50
 
+
+
+// Mostrar o menu na tela inicial do programa
 void apresentacao() {
 	
 	system("cls");
@@ -19,6 +24,8 @@ void apresentacao() {
 	
 }
 
+
+// Menu principal onde estarão as operações principais do programa
 void menuPrincipal() {
 	apresentacao();
 		char op;
@@ -26,6 +33,9 @@ void menuPrincipal() {
 		
 		switch(op){
 			case '1':
+				carregarDB();
+				system("pause");
+				menuPrincipal();
 				break;
 			case '2':
 				
@@ -34,7 +44,9 @@ void menuPrincipal() {
 				
 				break;
 			case '4':
-				
+				escreverDB(1);
+				system("pause");
+				menuPrincipal();
 				break;
 			case '5':
 				
@@ -60,7 +72,60 @@ void menuPrincipal() {
 
 void valorInvalido(){
 	printf("O valor inserido e invalido");
+	system("pause");
+	menuPrincipal();
+
 }
+
+// ********************** BASE DE DADOS ************************ //
+
+//Seção para manipulação da base de dados(.txt)
+
+void escreverDB(int op) {
+	// Qualquer valor chamado na ausencia da db
+	// irá criar uma nova
+	char arr[MAX_NUMBER_STRINGS][MAXCHAR]; 
+	strcpy(arr[0], "igor mascarenhas");
+	strcpy(arr[1], "liana maria ");
+	
+	
+	FILE * fp;
+	fp = fopen("database.txt", "w"); // A letra w sobre escreve o que já existe
+	
+	// 1 - escrever na database
+	if(op == 1) {
+			fprintf(fp, arr[0]);// Aqui vai a lista já montada e não um nome por vez
+			fprintf(fp, arr[1]);// Aqui vai a lista já montada e não um nome por vez
+		
+	}
+	
+	fclose(fp);
+} 
+
+void carregarDB() {
+	
+	FILE *fp; //Variável do tipo arquivo
+	char str[MAXCHAR];
+	char * filename = "database.txt";
+	
+	fp = fopen(filename, "r");
+	if(fp == NULL) {
+		escreverDB(0);
+		fp = fopen(filename, "r");
+		if(fp == NULL) {
+			printf("Não foi possível carregar a base de dados %s", filename);
+			return 1;
+		}
+	}
+	
+	while (fgets(str, MAXCHAR, fp) != NULL)
+		printf("\n%s \n\n", str);
+	fclose(fp);
+	return 0;
+	
+}
+
+// ********************** BASE DE DADOS - FIM ************************ //
 
 int main(int argc, char *argv[]) {
 	
