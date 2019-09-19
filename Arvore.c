@@ -9,7 +9,7 @@ struct arvore {
 };
 
 struct no {
-	int info;
+	char * info;
 	No * pai;
 	No * esq;
 	No * dir;
@@ -35,13 +35,13 @@ void desalocar_nos_rec(No * raiz) {
 }
 
 void imprimir(Arvore * a) {
-	imp_pre(a->raiz);
+	imp_in(a->raiz);
 	printf("\n");
 } 
 
 void imp_pre(No * raiz) {
 	if (raiz != NULL) {
-		printf("%d ", raiz->info);
+		printf("%s ", raiz->info);
 		imp_pre(raiz->esq);
 		imp_pre(raiz->dir);
 	}
@@ -50,7 +50,7 @@ void imp_pre(No * raiz) {
 void imp_in(No * raiz) {
 	if (raiz != NULL) {
 		imp_in(raiz->esq);
-		printf("%d ", raiz->info);
+		printf("%s ", raiz->info);
 		imp_in(raiz->dir);
 	}
 }
@@ -59,7 +59,7 @@ void imp_pos(No * raiz) {
 	if (raiz != NULL) {
 		imp_pos(raiz->esq);
 		imp_pos(raiz->dir);
-		printf("%d ", raiz->info);
+		printf("%s ", raiz->info);
 	}
 }
 
@@ -92,11 +92,11 @@ int contar_folhas_rec(No * raiz) {
 	return 0;
 }
 
-int buscar(Arvore * arv, int v) {
+int buscar(Arvore * arv, char * v) {
 	return buscar_rec(arv->raiz, v);
 }
 
-int buscar_rec(No * raiz, int v) {
+int buscar_rec(No * raiz, char * v) {
 	if (raiz != NULL) {
 		if (raiz->info > v) {
 			return buscar_rec(raiz->esq, v);
@@ -109,12 +109,12 @@ int buscar_rec(No * raiz, int v) {
 	return 0;
 }
 
-No * inserir_rec(No * raiz, int v) {
+No * inserir_rec(No * raiz, char * v) {
 	if (raiz != NULL) {
-		if (raiz->info > v) {
+		if (strcmp(raiz->info, v) > 0) {
 			raiz->esq = inserir_rec(raiz->esq, v);
 		}
-		if (raiz->info < v) {
+		if (strcmp(raiz->info, v) < 0) {
 			raiz->dir = inserir_rec(raiz->dir, v);
 		}
 	} else {
@@ -126,7 +126,7 @@ No * inserir_rec(No * raiz, int v) {
 	return raiz;
 }
 
-void inserir(Arvore * arv, int v) {
+void inserir(Arvore * arv, char * v) {
 	arv->raiz = inserir_rec(arv->raiz, v);
 }
 
@@ -144,7 +144,7 @@ No * remover_maior(No * raiz, int * pmaior) {
 	return raiz;
 }
 
-No * remover_rec(No * raiz, int v) {
+No * remover_rec(No * raiz, char * v) {
 	if (raiz != NULL) {
 		if (raiz->info > v) {
 			raiz->esq = remover_rec(raiz->esq, v);
@@ -174,15 +174,15 @@ No * remover_rec(No * raiz, int v) {
 	return raiz;
 }
 
-void remover(Arvore * arv, int v) {
+void remover(Arvore * arv, char * v) {
 	arv->raiz = remover_rec(arv->raiz, v);
 }
 
 
-int buscar2(Arvore * arv, int v) {
+int buscar2(Arvore * arv, char * v) {
 	No * raiz = arv->raiz;
 	while(raiz != NULL) {
-		if (raiz->info == v) {
+		if ( strstr(raiz->info, v) ) {
 			return 1;
 		}
 		raiz = raiz->info > v ? 
@@ -191,7 +191,7 @@ int buscar2(Arvore * arv, int v) {
 	return 0;
 }
 
-void inserir2(Arvore * arv, int v) {
+void inserir2(Arvore * arv, char * v) {
 	No * pai = NULL, * raiz = arv->raiz;
 	while(raiz != NULL) {
 		if (raiz->info == v) {
@@ -215,7 +215,7 @@ void inserir2(Arvore * arv, int v) {
 	}
 }
 
-void remover2(Arvore * arv, int v) {
+void remover2(Arvore * arv, char * v) {
 	No * pai = NULL, * raiz = arv->raiz;
 	//COMEÇA COM UMA BUSCA
 	while(raiz != NULL) {
@@ -284,4 +284,7 @@ void remover2(Arvore * arv, int v) {
 		}
 	}
 }
+
+
+
 

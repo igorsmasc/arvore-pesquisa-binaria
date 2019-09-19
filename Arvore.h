@@ -7,11 +7,10 @@ int altura(Arvore * arv);
 int contar_folhas(Arvore * arv);
 void imprimir(Arvore * arv);
 
-int buscar(Arvore * arv, int v);
-void inserir(Arvore * arv, int v);
-void remover(Arvore * arv, int v);
+int buscar(Arvore * arv, char * v);
+void inserir(Arvore * arv, char * v);
+void remover(Arvore * arv, char * v);
 
-int buscar2(Arvore * arv, int v);
-void inserir2(Arvore * arv, int v);
-void remover2(Arvore * arv, int v);
-
+int buscar2(Arvore * arv, char * v);
+void inserir2(Arvore * arv, char * v);
+void remover2(Arvore * arv, char * v);

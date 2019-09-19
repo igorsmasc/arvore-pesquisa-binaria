@@ -1,10 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "Arvore.c"
-#define MAXCHAR 30
-#define MAX_NUMBER_STRINGS 50
+#include "Arvore.h"
 
+/* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
+int main(int argc, char *argv[]) {
+	Arvore * a = criar();
+	inserir(a, "ca");
+	inserir(a, "aa");
+	inserir(a, "cb");
+	inserir(a, "b");
+	//printf(buscar2(a, "0") == 1 ? "Sim" : "Nao");
+	
+	imprimir(a);
+	destruir(a);
+	system("pause");
+}
 
 // Mostrar o menu na tela inicial do programa
 void apresentacao() {
@@ -85,7 +96,7 @@ void valorInvalido(){
 void escreverDB(int op) {
 	// Qualquer valor chamado na ausencia da db
 	// irá criar uma nova
-	char arr[MAX_NUMBER_STRINGS][MAXCHAR]; 
+	char * arr; 
 	strcpy(arr[0], "igor mascarenhas\n");
 	strcpy(arr[1], "liana maria\n");
 	
@@ -95,8 +106,8 @@ void escreverDB(int op) {
 	
 	// 1 - escrever na database
 	if(op == 1) {
-			fprintf(fp, arr[0]);// Aqui vai a lista já montada e não um nome por vez
-			fprintf(fp, arr[1]);// Aqui vai a lista já montada e não um nome por vez
+			fprintf(fp, arr[0]); // Aqui vai a lista já montada e não um nome por vez
+			fprintf(fp, arr[1]); // Aqui vai a lista já montada e não um nome por vez
 		
 	}
 	
@@ -106,7 +117,7 @@ void escreverDB(int op) {
 void carregarDB() {
 	
 	FILE *fp; //Variável do tipo arquivo
-	char str[MAX_NUMBER_STRINGS];
+	char str[100];
 	char * filename = "database.txt";
 	
 	fp = fopen(filename, "r");
@@ -119,7 +130,7 @@ void carregarDB() {
 		}
 	}
 	
-	while (fgets(str, MAX_NUMBER_STRINGS, fp) != NULL)
+	while (fgets(str, 100, fp) != NULL)
 		printf("\n%s \n\n", str);
 	fclose(fp);
 	return 0;
@@ -128,8 +139,4 @@ void carregarDB() {
 
 // ********************** BASE DE DADOS - FIM ************************ //
 
-int main(int argc, char *argv[]) {
-	
-	menuPrincipal();
-	
-}
+
