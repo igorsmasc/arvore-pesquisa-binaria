@@ -340,6 +340,7 @@ char * gerar_string_txt(Arvore * a){
 // 6. Listar e remover da memoria todos os nomes que sao maiores.
 
 void remover_maiores(Arvore * a, char * v) {
+	strcat(v, "\n");
 	remover_maiores_rec(a->raiz, v, a);
 	remover_maiores_rec2(a->raiz, v, a);
 }

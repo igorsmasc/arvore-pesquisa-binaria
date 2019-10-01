@@ -77,6 +77,7 @@ void menuPrincipal(Arvore * a) {
 				printf("Digite o que deseja remover (MAIORES): \n");
 				gets(nome);
 				remover_maiores(a, nome);
+				imprimir(a);
 				system("pause");
 				menuPrincipal(a);
 				break;
@@ -84,6 +85,7 @@ void menuPrincipal(Arvore * a) {
 				printf("Digite o que deseja remover (MENORES): \n");
 				gets(nome);
 				remover_menores(a, nome);
+				imprimir(a);
 				system("pause");
 				menuPrincipal(a);
 				break;
