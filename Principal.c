@@ -6,13 +6,9 @@
 
 int main(int argc, char *argv[]) {
 	Arvore * a = criar();
-	inserir(a, "ca");
-	inserir(a, "aa");
-	inserir(a, "cb");
-	inserir(a, "b");
-	//printf(buscar2(a, "0") == 1 ? "Sim" : "Nao");
+	apresentacao();
+	menuPrincipal();
 	
-	imprimir(a);
 	destruir(a);
 	system("pause");
 }
@@ -117,7 +113,7 @@ void escreverDB(int op) {
 void carregarDB() {
 	
 	FILE *fp; //Variável do tipo arquivo
-	char str[100];
+	char str[30];
 	char * filename = "database.txt";
 	
 	fp = fopen(filename, "r");
@@ -136,6 +132,12 @@ void carregarDB() {
 	return 0;
 	
 }
+
+/* 1. Recarregar a listagem de nomes a partir do arquivo. 
+*	Para tanto, todo o conteúdo da árvore anterior deverá ser removido
+*	e uma nova carga deverá ser feita, como descrito acima.
+*/
+
 
 // ********************** BASE DE DADOS - FIM ************************ //
 

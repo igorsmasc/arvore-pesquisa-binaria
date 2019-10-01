@@ -34,11 +34,6 @@ void desalocar_nos_rec(No * raiz) {
 	}
 }
 
-void imprimir(Arvore * a) {
-	imp_in(a->raiz);
-	printf("\n");
-} 
-
 void imp_pre(No * raiz) {
 	if (raiz != NULL) {
 		printf("%s ", raiz->info);
@@ -47,12 +42,16 @@ void imp_pre(No * raiz) {
 	}
 }
 
-void imp_in(No * raiz) {
-	if (raiz != NULL) {
-		imp_in(raiz->esq);
-		printf("%s ", raiz->info);
-		imp_in(raiz->dir);
+int buscar2(Arvore * arv, char * v) {
+	No * raiz = arv->raiz;
+	while(raiz != NULL) {
+		if ( strstr(raiz->info, v) ) {
+			return 1;
+		}
+		raiz = raiz->info > v ? 
+			raiz->esq : raiz->dir;
 	}
+	return 0;
 }
 
 void imp_pos(No * raiz) {
@@ -109,87 +108,7 @@ int buscar_rec(No * raiz, char * v) {
 	return 0;
 }
 
-No * inserir_rec(No * raiz, char * v) {
-	if (raiz != NULL) {
-		if (strcmp(raiz->info, v) > 0) {
-			raiz->esq = inserir_rec(raiz->esq, v);
-		}
-		if (strcmp(raiz->info, v) < 0) {
-			raiz->dir = inserir_rec(raiz->dir, v);
-		}
-	} else {
-		raiz = malloc(sizeof(No));
-		raiz->info = v;
-		raiz->esq = NULL;
-		raiz->dir = NULL;
-	}
-	return raiz;
-}
 
-void inserir(Arvore * arv, char * v) {
-	arv->raiz = inserir_rec(arv->raiz, v);
-}
-
-No * remover_maior(No * raiz, int * pmaior) {
-	if (raiz != NULL) {
-		if (raiz->dir != NULL) {
-			raiz->dir = remover_maior(raiz->dir, pmaior);
-		} else {
-			No * aux = raiz;
-			*pmaior = raiz->info;
-			raiz = raiz->esq;
-			free(aux);
-		}
-	}
-	return raiz;
-}
-
-No * remover_rec(No * raiz, char * v) {
-	if (raiz != NULL) {
-		if (raiz->info > v) {
-			raiz->esq = remover_rec(raiz->esq, v);
-		} else {
-			if (raiz->info < v) {
-				raiz->dir = remover_rec(raiz->dir, v);
-			} else { //ENCONTROU
-				No * aux = raiz;
-				// FOLHA (GRAU 0)
-				if (raiz->esq == NULL && raiz->dir == NULL) {
-					raiz = NULL;	
-					free(aux);
-				} else {
-					//GRAU 1
-					if (raiz->esq == NULL || raiz->dir == NULL) {
-						raiz = raiz->esq != NULL ? raiz->esq : raiz->dir;
-						free(aux);
-					} else { //GRAU 2
-						int maior;
-						raiz->esq = remover_maior(raiz->esq, &maior);
-						raiz->info = maior;
-					}
-				}
-			}
-		}
-	}
-	return raiz;
-}
-
-void remover(Arvore * arv, char * v) {
-	arv->raiz = remover_rec(arv->raiz, v);
-}
-
-
-int buscar2(Arvore * arv, char * v) {
-	No * raiz = arv->raiz;
-	while(raiz != NULL) {
-		if ( strstr(raiz->info, v) ) {
-			return 1;
-		}
-		raiz = raiz->info > v ? 
-			raiz->esq : raiz->dir;
-	}
-	return 0;
-}
 
 void inserir2(Arvore * arv, char * v) {
 	No * pai = NULL, * raiz = arv->raiz;
@@ -286,5 +205,118 @@ void remover2(Arvore * arv, char * v) {
 }
 
 
+// CONCLUIDOS PARA O TRABALHO 
+
+// 2. Listar todos os nomes em ordem alfabética.
+
+void imprimir(Arvore * a) {
+	imp_in(a->raiz);
+	printf("\n");
+} 
+
+void imp_in(No * raiz) {
+	if (raiz != NULL) {
+		imp_in(raiz->esq);
+		printf("%s \n", raiz->info);
+		imp_in(raiz->dir);
+	}
+}
+
+// 3. Listar todos os nomes que contém uma substring fornecida.
+
+void listar_substring(Arvore * a, char * v) {
+	printf("Nomes contendo a subtring: %s ", v);
+	printf("\n");
+	imp_substring(a->raiz, v);
+	printf("\n");
+} 
+
+void imp_substring(No * raiz, char * v) {
+	if (raiz != NULL) {
+		
+		imp_substring(raiz->esq, v);
+		
+		if(strstr(raiz->info, v)) {
+			printf("%s \n", raiz->info);
+		}
+		
+		imp_substring(raiz->dir, v);
+		
+	}
+}
+
+// 4. Inserir um novo nome na memória.
+
+No * inserir_rec(No * raiz, char * v) {
+	if (raiz != NULL) {
+		if (strcmp(raiz->info, v) > 0) {
+			raiz->esq = inserir_rec(raiz->esq, v);
+		}
+		if (strcmp(raiz->info, v) < 0) {
+			raiz->dir = inserir_rec(raiz->dir, v);
+		}
+	} else {
+		raiz = malloc(sizeof(No));
+		raiz->info = v;
+		raiz->esq = NULL;
+		raiz->dir = NULL;
+	}
+	return raiz;
+}
+
+void inserir(Arvore * arv, char * v) {
+	arv->raiz = inserir_rec(arv->raiz, v);
+}
+
+// 5. Remover um nome da memória.
+
+No * remover_maior(No * raiz, int * pmaior) {
+	if (raiz != NULL) {
+		if (raiz->dir != NULL) {
+			raiz->dir = remover_maior(raiz->dir, pmaior);
+		} else {
+			No * aux = raiz;
+			*pmaior = raiz->info;
+			raiz = raiz->esq;
+			free(aux);
+		}
+	}
+	return raiz;
+}
 
 
+No * remover_rec(No * raiz, char * v) {
+	if (raiz != NULL) {
+		if (strcmp(raiz->info, v) > 0) { 
+			raiz->esq = remover_rec(raiz->esq, v);
+		} else {
+			if (strcmp(raiz->info, v) < 0) {
+				raiz->dir = remover_rec(raiz->dir, v);
+			} else { //ENCONTROU
+				No * aux = raiz;
+				// FOLHA (GRAU 0)
+				if (raiz->esq == NULL && raiz->dir == NULL) {
+					raiz = NULL;	
+					free(aux);
+				} else {
+					//GRAU 1
+					if (raiz->esq == NULL || raiz->dir == NULL) {
+						raiz = raiz->esq != NULL ? raiz->esq : raiz->dir;
+						free(aux);
+					} else { //GRAU 2
+						int maior;
+						raiz->esq = remover_maior(raiz->esq, &maior);
+						raiz->info = maior;
+					}
+				}
+			}
+		}
+	}
+	return raiz;
+}
+
+
+
+void remover(Arvore * arv, char * v) {
+	arv->raiz = remover_rec(arv->raiz, v);
+}
