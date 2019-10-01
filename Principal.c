@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
 }
 
 // Mostrar o menu na tela inicial do programa
-void apresentacao(Arvore * a) {
+void apresentacao() {
 	
 	system("cls");
 	printf("\n[                              APB-ED2                              ]\n\n");
@@ -105,19 +105,20 @@ void valorInvalido(Arvore * a){
 
 void escreverDB(int op) {
 	// Qualquer valor chamado na ausencia da db
-	// irá criar uma nova
-	char * arr; 
-	strcpy(arr[0], "igor mascarenhas\n");
-	strcpy(arr[1], "liana maria\n");
+	// ir? criar uma nova
+	char arr[50][30]; 
+	strcpy(arr[0], "igor mascarenhas");
+	strcpy(arr[1], "liana maria");
 	
 	
 	FILE * fp;
-	fp = fopen("database.txt", "w"); // A letra w sobre escreve o que já existe
+	fp = fopen("database.txt", "w"); // A letra w sobre escreve o que j? existe
 	
 	// 1 - escrever na database
 	if(op == 1) {
-			fprintf(fp, arr[0]); // Aqui vai a lista já montada e não um nome por vez
-			fprintf(fp, arr[1]); // Aqui vai a lista já montada e não um nome por vez
+			
+			fprintf(fp, arr[0]);// Aqui vai a lista j? montada e n?o um nome por vez
+			fprintf(fp, arr[1]);// Aqui vai a lista j? montada e n?o um nome por vez
 		
 	}
 	
@@ -148,12 +149,15 @@ void carregarDB(Arvore * a) {
 		}
 	}
 	printf("\n");
+	
 	while (fgets(nome, 30, fp) != NULL){
-		printf("\n%s\n", nome);
+		printf("\n %s \n", nome);
 		inserir(a, nome);
 	}
+
 		
 	fclose(fp);
+	getch();
 	return 0;
 	
 }
