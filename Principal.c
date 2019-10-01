@@ -43,16 +43,21 @@ void menuPrincipal(Arvore * a) {
 			case '1':
 				a = criar();
 				carregarDB(a);
+				printf("\n");
+				printf("*** Listagem a partir arquivo de texto ***\n");
 				imprimir(a);
 				system("pause");
 				menuPrincipal(a);
 				break;
 			case '2':
+				printf("\n");
+				printf("*** Imprimindo em ordem Alfabetica *** \n");
 				imprimir(a);
 				system("pause");
 				menuPrincipal(a);
 				break;
 			case '3':
+				printf("\n");
 				printf("Digite o que deseja buscar: \n");
 				gets(nome);
 				listar_substring(a, nome);
@@ -63,6 +68,8 @@ void menuPrincipal(Arvore * a) {
 				printf("Digite o que deseja inserir: \n");
 				gets(nome);
 				inserir(a, nome);
+				printf("*** Nome inserido com sucesso! ***");
+				printf("\n");
 				system("pause");
 				menuPrincipal(a);
 				break;
@@ -70,6 +77,7 @@ void menuPrincipal(Arvore * a) {
 				printf("Digite o que deseja remover: \n");
 				gets(nome);
 				remover(a, nome);
+				printf("**** Operacao realizada com sucesso! ***\n");
 				system("pause");
 				menuPrincipal(a);
 				break;
@@ -77,6 +85,7 @@ void menuPrincipal(Arvore * a) {
 				printf("Digite o que deseja remover (MAIORES): \n");
 				gets(nome);
 				remover_maiores(a, nome);
+				printf("**** Operacao realizada com sucesso! ***\n");
 				imprimir(a);
 				system("pause");
 				menuPrincipal(a);
@@ -85,6 +94,7 @@ void menuPrincipal(Arvore * a) {
 				printf("Digite o que deseja remover (MENORES): \n");
 				gets(nome);
 				remover_menores(a, nome);
+				printf("**** Operacao realizada com sucesso! ***\n");
 				imprimir(a);
 				system("pause");
 				menuPrincipal(a);
@@ -92,6 +102,7 @@ void menuPrincipal(Arvore * a) {
 				break;
 			case '8':
 				gravar_arquivo(a);
+				printf("*** A sua lista foi salva com sucesso! ***\n");
 				system("pause");
 				menuPrincipal(a);
 				break;

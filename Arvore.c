@@ -225,7 +225,7 @@ void imp_in(No * raiz) {
 // 3. Listar todos os nomes que contém uma substring fornecida.
 
 void listar_substring(Arvore * a, char * v) {
-	printf("Nomes contendo a subtring: %s ", v);
+	printf("*** Nomes contendo a subtring: '%s' ***", v);
 	printf("\n");
 	imp_substring(a->raiz, v);
 	printf("\n");
