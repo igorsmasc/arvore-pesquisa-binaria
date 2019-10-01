@@ -13,7 +13,7 @@ int buscar(Arvore * arv, char * v);
 void inserir(Arvore * arv, char * v);
 void remover(Arvore * arv, char * v);
 
-
+void gravar_arquivo(Arvore * a);
 void remover_maiores(Arvore * a, char * v);
 void remover_menores(Arvore * a, char * v);
 void listar_substring(Arvore * a, char * v);

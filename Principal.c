@@ -43,6 +43,7 @@ void menuPrincipal(Arvore * a) {
 			case '1':
 				a = criar();
 				carregarDB(a);
+				imprimir(a);
 				system("pause");
 				menuPrincipal(a);
 				break;
@@ -88,8 +89,7 @@ void menuPrincipal(Arvore * a) {
 				break;
 				break;
 			case '8':
-				
-				escreverDB(1, a);
+				gravar_arquivo(a);
 				system("pause");
 				menuPrincipal(a);
 				break;
@@ -150,9 +150,7 @@ void carregarDB(Arvore * a) {
 			return 1;
 		}
 	}
-	printf("\n");
 	while (fgets(str, 30, fp) != NULL){
-		printf("\n%s\n", str);
 		inserir(a, str);
 	}
 		

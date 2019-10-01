@@ -211,13 +211,12 @@ void remover2(Arvore * arv, char * v) {
 
 void imprimir(Arvore * a) {
 	imp_in(a->raiz);
-	printf("\n");
 } 
 
 void imp_in(No * raiz) {
 	if (raiz != NULL) {
 		imp_in(raiz->esq);
-		printf("%s \n", raiz->info);
+		printf("%s ", raiz->info);
 		imp_in(raiz->dir);
 	}
 }
@@ -237,7 +236,7 @@ void imp_substring(No * raiz, char * v) {
 		imp_substring(raiz->esq, v);
 		
 		if(strstr(raiz->info, v)) {
-			printf("%s \n", raiz->info);
+			printf("%s ", raiz->info);
 		}
 		
 		imp_substring(raiz->dir, v);
@@ -268,6 +267,7 @@ No * inserir_rec(No * raiz, char * v) {
 }
 
 void inserir(Arvore * arv, char * v) {
+	strcat(v, "\n");
 	arv->raiz = inserir_rec(arv->raiz, v);
 }
 
@@ -403,7 +403,31 @@ void remover_menores_rec2(No * raiz, char * v, Arvore * a) {
 	}
 }
 
+// GRAVAR
 
+void gravar_arquivo(Arvore * a){
+	FILE * arquivo = fopen("database.txt", "w");
+    if(arquivo == NULL) {
+        fprintf(stderr, "Erro ao abrir o arquivo.txt.");
+        return 1;
+    }else{
+    	gravar_arquivo_rec(a->raiz, arquivo);
+	}
+	
+	fclose(arquivo);
+}
+
+void gravar_arquivo_rec(No * raiz, FILE * arquivo){
+	fflush(stdin);
+	if(raiz != NULL){
+		gravar_arquivo_rec(raiz->esq, arquivo);
+		fputs(raiz->info, arquivo);
+		fputs('\0', arquivo);
+		printf("\n");
+		gravar_arquivo_rec(raiz->dir, arquivo);
+	}
+
+}
 
 
 
