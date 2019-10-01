@@ -1,21 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "Arvore.h"
-#define _GNU_SOURCE 
 
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
 int main(int argc, char *argv[]) {
 	Arvore * a = criar();
-	apresentacao(a);
-	menuPrincipal(a);
+	apresentacao();
+	menuPrincipal();
 	
 	destruir(a);
 	system("pause");
 }
 
 // Mostrar o menu na tela inicial do programa
-void apresentacao(Arvore * a) {
+void apresentacao() {
 	
 	system("cls");
 	printf("\n[                              APB-ED2                              ]\n\n");
@@ -35,43 +34,30 @@ void apresentacao(Arvore * a) {
 
 
 // Menu principal onde estarão as operações principais do programa
-void menuPrincipal(Arvore * a) {
-		apresentacao(a);
+void menuPrincipal() {
+	apresentacao();
 		char op;
-		char nome[30];
 		op = getch();
 		
 		switch(op){
 			case '1':
-				carregarDB(a);
+				carregarDB();
 				system("pause");
-				menuPrincipal(a);
+				menuPrincipal();
 				break;
 			case '2':
-				imprimir(a);
-				system("pause");
-				menuPrincipal(a);
+				
 				break;
 			case '3':
-				printf("Digite o que deseja buscar: \n");
-				gets(nome);
-				listar_substring(a, nome);
-				system("pause");
-				menuPrincipal(a);
+				
 				break;
 			case '4':
-				printf("Digite o que deseja inserir: \n");
-				gets(nome);
-				inserir(a, nome);
+				escreverDB(1);
 				system("pause");
-				menuPrincipal(a);
+				menuPrincipal();
 				break;
 			case '5':
-				printf("Digite o que deseja remover: \n");
-				gets(nome);
-				remover(a, nome);
-				system("pause");
-				menuPrincipal(a);
+				
 				break;
 			case '6':
 				
@@ -86,16 +72,16 @@ void menuPrincipal(Arvore * a) {
 				
 				break;
 			default:	
-				menuPrincipal(a); 
+				menuPrincipal(); 
 				// Adicionar texto valor inválido
 		}
 		
 }
 
-void valorInvalido(Arvore * a){
+void valorInvalido(){
 	printf("O valor inserido e invalido");
 	system("pause");
-	menuPrincipal(a);
+	menuPrincipal();
 
 }
 
@@ -124,19 +110,11 @@ void escreverDB(int op) {
 	fclose(fp);
 } 
 
-/* 1. Recarregar a listagem de nomes a partir do arquivo. 
-*	Para tanto, todo o conteúdo da árvore anterior deverá ser removido
-*	e uma nova carga deverá ser feita, como descrito acima.
-*/
-
-void carregarDB(Arvore * a) {
+void carregarDB() {
 	
-	FILE *fp; // Variável do tipo arquivo
+	FILE *fp; //Variável do tipo arquivo
 	char str[30];
-	char * nome;
 	char * filename = "database.txt";
-	size_t len= 100; // valor arbitrário
-	
 	
 	fp = fopen(filename, "r");
 	if(fp == NULL) {
@@ -147,16 +125,18 @@ void carregarDB(Arvore * a) {
 			return 1;
 		}
 	}
-	printf("\n");
-	while (fgets(nome, 30, fp) != NULL){
-		printf("\n%s\n", nome);
-		inserir(a, nome);
-	}
-		
+	
+	while (fgets(str, 100, fp) != NULL)
+		printf("\n%s \n\n", str);
 	fclose(fp);
 	return 0;
 	
 }
+
+/* 1. Recarregar a listagem de nomes a partir do arquivo. 
+*	Para tanto, todo o conteúdo da árvore anterior deverá ser removido
+*	e uma nova carga deverá ser feita, como descrito acima.
+*/
 
 
 // ********************** BASE DE DADOS - FIM ************************ //
