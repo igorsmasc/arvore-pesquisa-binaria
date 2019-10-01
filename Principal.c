@@ -6,12 +6,11 @@
 
 int main(int argc, char *argv[]) {
 	Arvore * a = criar();
-	apresentacao();
-	menuPrincipal();
+	menuPrincipal(a);
 	
-	destruir(a);
 	system("pause");
 }
+
 
 // Mostrar o menu na tela inicial do programa
 void apresentacao() {
@@ -34,54 +33,80 @@ void apresentacao() {
 
 
 // Menu principal onde estarão as operações principais do programa
-void menuPrincipal() {
+void menuPrincipal(Arvore * a) {
 	apresentacao();
 		char op;
+		char nome[30];
 		op = getch();
 		
 		switch(op){
 			case '1':
-				carregarDB();
+				a = criar();
+				carregarDB(a);
 				system("pause");
-				menuPrincipal();
+				menuPrincipal(a);
 				break;
 			case '2':
-				
+				imprimir(a);
+				system("pause");
+				menuPrincipal(a);
 				break;
 			case '3':
-				
+				printf("Digite o que deseja buscar: \n");
+				gets(nome);
+				listar_substring(a, nome);
+				system("pause");
+				menuPrincipal(a);
 				break;
 			case '4':
-				escreverDB(1);
+				printf("Digite o que deseja inserir: \n");
+				gets(nome);
+				inserir(a, nome);
 				system("pause");
-				menuPrincipal();
+				menuPrincipal(a);
 				break;
 			case '5':
-				
+				printf("Digite o que deseja remover: \n");
+				gets(nome);
+				remover(a, nome);
+				system("pause");
+				menuPrincipal(a);
 				break;
 			case '6':
-				
+				printf("Digite o que deseja remover (MAIORES): \n");
+				gets(nome);
+				remover_maiores(a, nome);
+				system("pause");
+				menuPrincipal(a);
 				break;
 			case '7':
-				
+				printf("Digite o que deseja remover (MENORES): \n");
+				gets(nome);
+				remover_menores(a, nome);
+				system("pause");
+				menuPrincipal(a);
+				break;
 				break;
 			case '8':
 				
+				escreverDB(1, a);
+				system("pause");
+				menuPrincipal(a);
 				break;
 			case '9':
-				
+				destruir(a);
 				break;
 			default:	
-				menuPrincipal(); 
+				menuPrincipal(a); 
 				// Adicionar texto valor inválido
 		}
 		
 }
 
-void valorInvalido(){
+void valorInvalido(Arvore * a){
 	printf("O valor inserido e invalido");
 	system("pause");
-	menuPrincipal();
+	menuPrincipal(a);
 
 }
 
@@ -89,45 +114,48 @@ void valorInvalido(){
 
 //Seção para manipulação da base de dados(.txt)
 
-void escreverDB(int op) {
+void escreverDB(int op, Arvore * a) {
 	// Qualquer valor chamado na ausencia da db
 	// irá criar uma nova
-	char * arr; 
-	strcpy(arr[0], "igor mascarenhas\n");
-	strcpy(arr[1], "liana maria\n");
-	
+	char * v;
+	v = gerar_string_txt(a);
 	
 	FILE * fp;
 	fp = fopen("database.txt", "w"); // A letra w sobre escreve o que já existe
 	
 	// 1 - escrever na database
 	if(op == 1) {
-			fprintf(fp, arr[0]); // Aqui vai a lista já montada e não um nome por vez
-			fprintf(fp, arr[1]); // Aqui vai a lista já montada e não um nome por vez
+			fprintf(fp, v); // Aqui vai a lista já montada e não um nome por vez
 		
 	}
 	
 	fclose(fp);
 } 
 
-void carregarDB() {
+void carregarDB(Arvore * a) {
 	
-	FILE *fp; //Variável do tipo arquivo
+	FILE *fp; // Variável do tipo arquivo
 	char str[30];
+	char * nome;
 	char * filename = "database.txt";
+	size_t len= 100; // valor arbitrário
+	
 	
 	fp = fopen(filename, "r");
 	if(fp == NULL) {
-		escreverDB(0);
+		escreverDB(0, "");
 		fp = fopen(filename, "r");
 		if(fp == NULL) {
 			printf("Não foi possível carregar a base de dados %s", filename);
 			return 1;
 		}
 	}
-	
-	while (fgets(str, 100, fp) != NULL)
-		printf("\n%s \n\n", str);
+	printf("\n");
+	while (fgets(str, 30, fp) != NULL){
+		printf("\n%s\n", str);
+		inserir(a, str);
+	}
+		
 	fclose(fp);
 	return 0;
 	

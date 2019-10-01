@@ -248,6 +248,7 @@ void imp_substring(No * raiz, char * v) {
 // 4. Inserir um novo nome na memória.
 
 No * inserir_rec(No * raiz, char * v) {
+	
 	if (raiz != NULL) {
 		if (strcmp(raiz->info, v) > 0) {
 			raiz->esq = inserir_rec(raiz->esq, v);
@@ -257,9 +258,11 @@ No * inserir_rec(No * raiz, char * v) {
 		}
 	} else {
 		raiz = malloc(sizeof(No));
-		raiz->info = v;
+		raiz->info = malloc(sizeof(char)*strlen(v));
+		strcpy(raiz->info, v);
 		raiz->esq = NULL;
 		raiz->dir = NULL;
+		
 	}
 	return raiz;
 }
@@ -315,8 +318,108 @@ No * remover_rec(No * raiz, char * v) {
 	return raiz;
 }
 
-
-
 void remover(Arvore * arv, char * v) {
 	arv->raiz = remover_rec(arv->raiz, v);
 }
+
+char * gerar_string_rec(No * raiz) {
+	char * str = malloc(sizeof(char)*2000);
+	if(raiz != NULL) {
+		printf("%s ", str);
+		strcat(str, gerar_string_rec(raiz->esq));
+		strcat(str, gerar_string_rec(raiz->dir));
+		return str;
+	}
+}
+
+char * gerar_string_txt(Arvore * a){
+	return gerar_string_rec(a->raiz);
+}
+
+// 6. Listar e remover da memoria todos os nomes que sao maiores.
+
+void remover_maiores(Arvore * a, char * v) {
+	remover_maiores_rec(a->raiz, v, a);
+	remover_maiores_rec2(a->raiz, v, a);
+}
+
+void remover_maiores_rec(No * raiz, char * v, Arvore * a) {
+	if(raiz != NULL) {
+		if(strcmp(raiz->info, v) > 0) {
+			remover(a, raiz->info);
+		}
+		
+		remover_maiores_rec(raiz->esq, v, a);
+		remover_maiores_rec(raiz->dir, v, a);
+	}
+}
+
+
+
+// 7. Listar e remover da memoria todos os nomes que sao maiores.
+
+void remover_menores(Arvore * a, char * v) {
+	remover_menores_rec(a->raiz, v, a);
+	remover_menores_rec2(a->raiz, v, a);
+}
+
+void remover_menores_rec(No * raiz, char * v, Arvore * a) {
+	if(raiz != NULL) {
+		if(strcmp(raiz->info, v) < 0) {
+			remover(a, raiz->info);
+		}
+		remover_menores_rec(raiz->dir, v, a);
+		remover_menores_rec(raiz->esq, v, a);
+		
+	}
+}
+
+
+// FUNÇÕES DE TESTE
+
+
+void remover_maiores_rec2(No * raiz, char * v, Arvore * a) {
+	if(raiz != NULL) {
+		if(strcmp(raiz->info, v) > 0) {
+			remover(a, raiz->info);
+		}
+		
+		remover_maiores_rec(raiz->esq, v, a);
+		remover_maiores_rec(raiz->dir, v, a);
+	}
+}
+
+
+
+void remover_menores_rec2(No * raiz, char * v, Arvore * a) {
+	if(raiz != NULL) {
+		if(strcmp(raiz->info, v) < 0) {
+			remover(a, raiz->info);
+		}
+		
+		remover_menores_rec(raiz->esq, v, a);
+		remover_menores_rec(raiz->dir, v, a);
+		
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
