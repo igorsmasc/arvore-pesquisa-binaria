@@ -210,13 +210,14 @@ void remover2(Arvore * arv, char * v) {
 // 2. Listar todos os nomes em ordem alfabética.
 
 void imprimir(Arvore * a) {
-	imp_in(a->raiz);
+	
+	printf("\n");imp_in(a->raiz);
 } 
 
 void imp_in(No * raiz) {
 	if (raiz != NULL) {
 		imp_in(raiz->esq);
-		printf("%s ", raiz->info);
+		printf("%s \n", raiz->info);
 		imp_in(raiz->dir);
 	}
 }
@@ -257,7 +258,7 @@ No * inserir_rec(No * raiz, char * v) {
 		}
 	} else {
 		raiz = malloc(sizeof(No));
-		raiz->info = malloc(sizeof(char)*strlen(v));
+		raiz->info = malloc(sizeof(char)*30);
 		strcpy(raiz->info, v);
 		raiz->esq = NULL;
 		raiz->dir = NULL;
@@ -267,7 +268,6 @@ No * inserir_rec(No * raiz, char * v) {
 }
 
 void inserir(Arvore * arv, char * v) {
-	strcat(v, "\n");
 	arv->raiz = inserir_rec(arv->raiz, v);
 }
 
@@ -319,6 +319,7 @@ No * remover_rec(No * raiz, char * v) {
 }
 
 void remover(Arvore * arv, char * v) {
+	strcat(v, "\n");
 	arv->raiz = remover_rec(arv->raiz, v);
 }
 
@@ -422,7 +423,7 @@ void gravar_arquivo_rec(No * raiz, FILE * arquivo){
 	if(raiz != NULL){
 		gravar_arquivo_rec(raiz->esq, arquivo);
 		fputs(raiz->info, arquivo);
-		fputs('\0', arquivo);
+		fputs("\n", arquivo);
 		printf("\n");
 		gravar_arquivo_rec(raiz->dir, arquivo);
 	}
